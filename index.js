@@ -18,28 +18,50 @@ async function getProductsList(){
     }).catch(err => console.log(err));
 }
 
-function getProductData(productUrl){
-    return await axios.get(url).then(response => {
+async function getProductData(productUrl){
+    return await axios.get(productUrl).then(response => {
         html = response.data;
-        //TODO: Return product with all info
+        const barcode = $('#barcode', html).text();
+        const quantity = $('#field_quantity_value', html).text();
+        const packaging = $('#field_packaging_value', html).text();;
+        var brands = [];
+        $('#field_brands_value > a', html).each((index, value) => {
+            brands.push($(value).text());
+        });
+        var categories = [];
+        $('#field_categories_value > a', html).each((index, value) => {
+            categories.push($(value).text());
+        });
+        const imported_t = new Date();
+        const status = 'imported';
+
+        return {barcode, quantity, packaging, brands, categories, imported_t, status}
     });
 }
 
-function getProductJson(position){
+async function getProductJson(position){
     const a = $(productsList[position]).children('a');
     const title = a.attr('title');
-    const url = a.attr('href');
+    const productUrl = a.attr('href');
     const status = 'draft';
-    
-    products.push({title, url, status});
+    console.log('Getting data of ' + title);
+    await getProductData(url + productUrl).then((productData) => {
+        products.push({title, productUrl, ...productData});
+        console.log('Successful aquired product data')
+    }).catch((err) => {
+        console.log('Error aquiring product data')
+        console.log(err);
+        products.push({title, productUrl, status});
+    });
 
-    if (count < 99) getProductJson(count++);
+    if (count < 5) await getProductJson(++count);
 }
 
 getProductsList().then((list) => {
     productsList = list;
-    getProductJson(0);
-    console.log(products);
+    getProductJson(0).then( () => {
+        console.log(products);
+    });
 }).catch(err => console.log(err))
 
 
