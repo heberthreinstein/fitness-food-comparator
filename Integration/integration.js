@@ -10,7 +10,7 @@ var productsList;
 var count = 0;
 var $;
 
-const uri = "mongodb+srv://admin:<password>@cluster0.jxoyx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb+srv://admin:cMySPn7PBImhJYUo@cluster0.jxoyx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect()
     .then(() => console.log("Connected to the database"))
@@ -32,6 +32,7 @@ async function getProductData(productUrl){
         const barcode = $('#barcode', html).text();
         const quantity = $('#field_quantity_value', html).text();
         const packaging = $('#field_packaging_value', html).text();
+        const image = $('#og_image', html).attr('src');
         var brands = [];
         $('#field_brands_value > a', html).each((index, value) => {
             brands.push($(value).text());
