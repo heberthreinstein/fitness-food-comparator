@@ -1,7 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { MongoClient } = require('mongodb');
-
+const mongodb = require('../API/mongodb');
 const app = require('express')();
 const PORT = 8081;
 
@@ -10,13 +9,6 @@ var productsList;
 var count = 0;
 var $;
 
-const uri = "mongodb+srv://admin:cMySPn7PBImhJYUo@cluster0.jxoyx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect()
-    .then(() => console.log("Connected to the database"))
-    .catch(err => console.log(err));
-
-const collection = client.db("fitness-food-comparator").collection("products");
 
 async function getProductsList(){
     return await axios.get(url).then(response => {
@@ -65,12 +57,12 @@ async function getProductJson(position){
         });
         await saveProduct(product);
     }
-    if (count < 9) await getProductJson(++count);
+    if (count < 10) await getProductJson(++count);
 }
 
 async function saveProduct(product) {
     var query = { barcode: product.barcode }
-    await collection.findOneAndReplace(query, product, { upsert: true })
+    await mongodb.collection.findOneAndReplace(query, product, { upsert: true })
         .then(() => console.log('Saved product ' + product.title))
         .catch(err => console.log(err))
 
@@ -78,12 +70,8 @@ async function saveProduct(product) {
 
 getProductsList().then((list) => {
     productsList = list;
-    getProductJson(0).then( () => {
-        client.close().then( () => {
-            console.log("Disconnected from the database");
-            console.log("======Importation Finished======");
-        });
-    });
+    getProductJson(0).then( () => 
+        console.log("======Importation Finished======"));
 }).catch(err => console.log(err))
 
 
