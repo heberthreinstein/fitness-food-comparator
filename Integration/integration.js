@@ -1,8 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const mongodb = require('../API/mongodb');
-const app = require('express')();
-const PORT = 8081;
 
 url = 'https://world.openfoodfacts.org';
 var productsList;
@@ -73,10 +71,3 @@ getProductsList().then((list) => {
     getProductJson(0).then( () => 
         console.log("======Importation Finished======"));
 }).catch(err => console.log(err))
-
-
-app.listen(
-    PORT,
-    () => console.log(`Running on port: ${PORT}`)
-)
-
