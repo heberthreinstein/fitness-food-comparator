@@ -8,6 +8,6 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 })
 export class ProductCardComponent {
 
-  @Input() product: any | undefined;
+  @Input('product') product: any;
 
 }
