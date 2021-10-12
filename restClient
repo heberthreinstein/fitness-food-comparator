@@ -1,0 +1,1 @@
+GET http://localhost:8080/products/3274080005003 HTTP/1.1
