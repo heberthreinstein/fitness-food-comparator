@@ -14,4 +14,13 @@ App para mostrar e comparar dados sobre alimentos retirados do [WorldFoodFacts](
 - MongoDB
 - Angular
 
+### Como utilizar
+#### Requisitos
+- Node
+- Angular CLI
 
+##### Suba a API
+`node API/index.js`
+
+##### Rode o app angular
+`ng serve`
