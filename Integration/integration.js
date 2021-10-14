@@ -66,8 +66,12 @@ async function saveProduct(product) {
 
 }
 
-getProductsList().then((list) => {
+const run = () => {
+    getProductsList().then((list) => {
     productsList = list;
     getProductJson(0).then( () => 
         console.log("======Importation Finished======"));
-}).catch(err => console.log(err))
+    }).catch(err => console.log(err))
+}
+
+module.exports = {run}
