@@ -8,8 +8,9 @@
         </nb-accordion-item-header>
           <nb-accordion-item-body>
               <b>Barcode: </b>{{product.barcode}}<br><br>
-              <b>Backaging: </b>{{product.packaging}}<br><br>
+              <b>Status: </b>{{product.status}}<br><br>
               <b>Quantity: </b>{{product.quantity}}<br><br>
+              <b>Packaging: </b>{{product.packaging}}<br><br>
               <b>Brands: </b><div *ngFor="let item of product.brands">{{item}}</div><br>
               <b>Categories: </b><div *ngFor="let item of product.categories">{{item}} </div>
           </nb-accordion-item-body>
